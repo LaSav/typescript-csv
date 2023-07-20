@@ -1,22 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const CsvFileReader_1 = require("./CsvFileReader");
-const reader = new CsvFileReader_1.CsvFileReader('football.csv');
-reader.read();
-// enum - enumeration
-var MatchResult;
-(function (MatchResult) {
-    MatchResult["HomeWin"] = "H";
-    MatchResult["AwayWin"] = "A";
-    MatchResult["Draw"] = "D";
-})(MatchResult || (MatchResult = {}));
-let arsenalWins = 0;
-for (let match of reader.data) {
-    if (match[1] === 'Arsenal' && match[5] === MatchResult.HomeWin) {
-        arsenalWins++;
-    }
-    else if (match[2] === 'Arsenal' && match[5] === MatchResult.AwayWin) {
-        arsenalWins++;
-    }
-}
-console.log(`Arsenal won ${arsenalWins} games`);
+const MatchReader_1 = require("./MatchReader");
+const Summary_1 = require("./Summary");
+const matchReader = MatchReader_1.MatchReader.fromCsv('football.csv');
+const summary = Summary_1.Summary.winsAnalysisWithHtmlReport('Arsenal');
+matchReader.load();
+summary.buildAndPrintReport(matchReader.matches);
